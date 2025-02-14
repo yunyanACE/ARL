@@ -172,15 +172,28 @@ echo "docker安装完毕 开始安装arl"
 
 
 # 拉取镜像，使用 Docker 自带进度条
+# 拉取镜像
 docker pull crpi-hsrhdrw6lwo73b0g.cn-shanghai.personal.cr.aliyuncs.com/yunyanck/arlmod:latest
+
+# 检查容器名是否已存在，若存在则停止并移除
 if docker ps -a --format '{{.Names}}' | grep -q '^arlmod$'; then
     docker stop arlmod > /dev/null 2>&1
     docker rm arlmod > /dev/null 2>&1
 fi
-docker run -d --name my_container crpi-hsrhdrw6lwo73b0g.cn-shanghai.personal.cr.aliyuncs.com/yunyanck/arlmod:latest
+
+# 启动容器，并获取容器 ID
+container_id=$(docker run -d --name arlmod crpi-hsrhdrw6lwo73b0g.cn-shanghai.personal.cr.aliyuncs.com/yunyanck/arlmod:latest)
+
+# 检查容器是否启动成功
 if [ -z "$container_id" ]; then
+    echo "容器启动失败，请检查配置和镜像。"
     exit 1
 fi
+
+# 容器启动成功，继续执行后续操作
+echo "容器启动成功，容器ID：$container_id"
+# 在这里继续执行其他操作，比如等待容器运行，或进行容器内操作等
+
 #!
 echo "开始拉取镜像..."
 docker pull crpi-hsrhdrw6lwo73b0g.cn-shanghai.personal.cr.aliyuncs.com/yunyanck/arl:latest
