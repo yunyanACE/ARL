@@ -1,5 +1,4 @@
 
-echo "docker安装完毕 开始安装arl"
 
 
 
